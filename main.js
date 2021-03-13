@@ -6,7 +6,7 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 3000);
+app.set('port', 42560);
 
 app.use(express.static('public'));
 
@@ -33,6 +33,21 @@ app.get('/view',function(req,res,next){
     res.send(JSON.stringify(rows));
   });
 });
+
+app.get('/one', function(req, res, next){
+  var context = {};
+  mysql.pool.query("SELECT * FROM workouts WHERE id=?", [req.query.id], function(err, result){
+    if(err){
+      next(err);
+      return;
+    }
+
+    //Send data to client
+    res.send(JSON.stringify(result));
+
+  });
+});
+
 
 app.get('/insert',function(req,res,next){
   var context = {};
@@ -61,26 +76,7 @@ app.get('/delete',function(req,res,next){
   });
 });
 
-/*
-///simple-update?id=2&name=The+Task&done=false&due=2015-12-5
-app.get('/simple-update',function(req,res,next){
-  var context = {};
-  mysql.pool.query("UPDATE todo SET name=?, done=?, due=? WHERE id=? ",
-    [req.query.name, req.query.done, req.query.due, req.query.id],
-    function(err, result){
-    if(err){
-      next(err);
-      return;
-    }
-    context.results = "Updated " + result.changedRows + " rows.";
-    res.render('home',context);
-  });
-});
-*/
-
-
-///safe-update?id=1&name=The+Task&done=false
-app.get('/safe-update',function(req,res,next){
+app.get('/update',function(req,res,next){
   var context = {};
   mysql.pool.query("SELECT * FROM workouts WHERE id=?", [req.query.id], function(err, result){
     if(err){
@@ -96,8 +92,8 @@ app.get('/safe-update',function(req,res,next){
               next(err);
               return;
             }
-            // context.results = "Updated " + result.changedRows + " rows.";
-            // res.render('home',context);
+            context.results = "Updated " + result.changedRows + " rows.";
+            res.render('home',context);
           });
     }
   });
@@ -132,5 +128,5 @@ app.use(function(err, req, res, next){
 });
 
 app.listen(app.get('port'), function(){
-  console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
+  console.log('Express started');
 });
