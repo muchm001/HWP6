@@ -2,11 +2,8 @@ document.addEventListener('DOMContentLoaded', bindButtons(event));
 
 
 function bindButtons(event) {
-    alert("Loaded buttons");
-
     viewLog(event);
     document.getElementById('wSubmit').addEventListener('click', function(event) {
-        alert("clicked");
         addWorkout(event);
         viewLog(event);
     });
