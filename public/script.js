@@ -15,7 +15,7 @@ function bindButtons(event) {
 
 function addWorkout(event) {
     //Base URL for 'insert' request
-    var url = 'http://flip1.engr.oregonstate.edu:42560/insert?';
+    const url = 'http://flip1.engr.oregonstate.edu:42560/insert?';
 
     //Get workout Name
     var name = document.getElementById('wName').value;
@@ -24,7 +24,6 @@ function addWorkout(event) {
         name = undefined;
     }
     else {
-        // Add workout if not blank
         url = url + 'name=' + name + '&';
     }
     console.log("Name after: " + name);
@@ -37,7 +36,6 @@ function addWorkout(event) {
 
     }
     else {
-        // Add reps if not blank
         url = url + 'reps=' + reps + '&';
     }
     console.log("Reps after: " + reps);
@@ -49,35 +47,31 @@ function addWorkout(event) {
         weight = undefined;
     }
     else {
-        // Add weight if not blank
         url = url + 'weight=' + weight + '&';
     }
     console.log("Weight after: " + weight);
 
-    //Get workout date
     var date = document.getElementById('wDate').value;
     console.log("Date before: " + date);
     if (date === '') {
         date = undefined;
     }
     else {
-        // Add date if not blank
         url = url + 'date=' + date + '&';
     }
     console.log("Date after: " + date);
 
-    //Get workout units (pound or kilogram)
     var lbs = document.getElementById('wlbs').checked;
     var kgs = document.getElementById('wkgs').checked;
     console.log("Pounds before: " + lbs);
     if (lbs === true) {
-        // Add workout in pounds
+
         console.log("in pounds");
         lbs = 1;
         url = url + 'lbs=' + lbs;
     }
     else if (kgs === true ) {
-        // Add workout in kilograms
+
         console.log("in kgs");
         lbs = 0;
         url = url + 'lbs=' + lbs;
